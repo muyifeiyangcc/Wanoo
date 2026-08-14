@@ -30,11 +30,5 @@
 			</array>
 		</dict>
 	</dict>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>We need access to your microphone to record sound for your trail videos and send voice messages in chats.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>We need camera access so you can snap moments along the trail, record videos, and update your profile picture.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library so you can pick and send your favorite outdoor photos and videos in chats, post updates, and set your profile picture.</string>
 </dict>
 </plist>
