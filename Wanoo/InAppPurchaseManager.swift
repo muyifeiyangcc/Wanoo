@@ -13,7 +13,7 @@ final class InAppPurchaseManager: NSObject {
         let usdPrice: String
     }
 
-    private let testPlans: [ProductPlan] = [
+    private let productPlans: [ProductPlan] = [
         ProductPlan(productID: "nqduuzkjsmzkaplv", coins: 400, usdPrice: "$0.99"),
         ProductPlan(productID: "ocaxfmcmghhyzxnz", coins: 800, usdPrice: "$1.99"),
         ProductPlan(productID: "ftxrirldrkltwphy", coins: 2_450, usdPrice: "$4.99"),
@@ -26,25 +26,8 @@ final class InAppPurchaseManager: NSObject {
         ProductPlan(productID: "voaesvpxyqttdyjz", coins: 63_700, usdPrice: "$99.99")
     ]
 
-    /// Formal builds provide up to ten entries in Info.plist under
-    /// WanooProductionProducts: [{ productID, coins, usdPrice }].
-    private var productionPlans: [ProductPlan] {
-        guard let values = Bundle.main.object(forInfoDictionaryKey: "WanooProductionProducts") as? [[String: Any]] else { return [] }
-        return values.prefix(10).compactMap { value in
-            guard let id = value["productID"] as? String,
-                  let coins = value["coins"] as? Int,
-                  let price = value["usdPrice"] as? String,
-                  !id.isEmpty, coins > 0, price.hasPrefix("$") else { return nil }
-            return ProductPlan(productID: id, coins: coins, usdPrice: price)
-        }
-    }
-
-    private var activePlans: [ProductPlan] {
-        Bundle.main.bundleIdentifier == "app.myfy.test" ? testPlans : productionPlans
-    }
-
-    var testProductIDs: Set<String> { Set(testPlans.map(\.productID)) }
-    var productionProductIDs: Set<String> { Set(productionPlans.map(\.productID)) }
+    private var activePlans: [ProductPlan] { productPlans }
+    var productIDs: Set<String> { Set(productPlans.map(\.productID)) }
     private(set) var products: [SKProduct] = []
     private(set) var state: State = .idle { didSet { NotificationCenter.default.post(name: Self.stateChanged, object: self) } }
     private var request: SKProductsRequest?
