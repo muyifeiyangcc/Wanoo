@@ -37,6 +37,57 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library so you can pick and send your favorite outdoor photos and videos in chats, post updates, and set your profile picture.</string>
 	<key>WanooProductionProducts</key>
-	<array/>
+	<array>
+		<dict>
+			<key>productID</key><string>nqduuzkjsmzkaplv</string>
+			<key>coins</key><integer>400</integer>
+			<key>usdPrice</key><string>$0.99</string>
+		</dict>
+		<dict>
+			<key>productID</key><string>ocaxfmcmghhyzxnz</string>
+			<key>coins</key><integer>800</integer>
+			<key>usdPrice</key><string>$1.99</string>
+		</dict>
+		<dict>
+			<key>productID</key><string>ftxrirldrkltwphy</string>
+			<key>coins</key><integer>2450</integer>
+			<key>usdPrice</key><string>$4.99</string>
+		</dict>
+		<dict>
+			<key>productID</key><string>dosfjfyfilpvialo</string>
+			<key>coins</key><integer>5150</integer>
+			<key>usdPrice</key><string>$9.99</string>
+		</dict>
+		<dict>
+			<key>productID</key><string>lbiizwixmornamqd</string>
+			<key>coins</key><integer>6400</integer>
+			<key>usdPrice</key><string>$12.99</string>
+		</dict>
+		<dict>
+			<key>productID</key><string>awqdpmsulhawatiy</string>
+			<key>coins</key><integer>10800</integer>
+			<key>usdPrice</key><string>$19.99</string>
+		</dict>
+		<dict>
+			<key>productID</key><string>rdalalhkifvtmbdh</string>
+			<key>coins</key><integer>14900</integer>
+			<key>usdPrice</key><string>$24.99</string>
+		</dict>
+		<dict>
+			<key>productID</key><string>fhdqqatmdibiambe</string>
+			<key>coins</key><integer>29400</integer>
+			<key>usdPrice</key><string>$49.99</string>
+		</dict>
+		<dict>
+			<key>productID</key><string>rqjmznkyorxxppxx</string>
+			<key>coins</key><integer>39500</integer>
+			<key>usdPrice</key><string>$79.99</string>
+		</dict>
+		<dict>
+			<key>productID</key><string>voaesvpxyqttdyjz</string>
+			<key>coins</key><integer>63700</integer>
+			<key>usdPrice</key><string>$99.99</string>
+		</dict>
+	</array>
 </dict>
 </plist>

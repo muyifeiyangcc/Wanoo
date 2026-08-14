@@ -14,12 +14,16 @@ final class InAppPurchaseManager: NSObject {
     }
 
     private let testPlans: [ProductPlan] = [
-        ProductPlan(productID: "lvbsvhxcgcrvesor", coins: 100, usdPrice: "$0.99"),
-        ProductPlan(productID: "dxismgcwewhrtezo", coins: 550, usdPrice: "$4.99"),
-        ProductPlan(productID: "khtxlcejaxmqcsra", coins: 1_200, usdPrice: "$9.99"),
-        ProductPlan(productID: "yadwwvxspgxwlndb", coins: 3_000, usdPrice: "$19.99"),
-        ProductPlan(productID: "qnrcuelbtiuflyky", coins: 6_500, usdPrice: "$39.99"),
-        ProductPlan(productID: "ymohxnvpkqxutvab", coins: 14_000, usdPrice: "$79.99")
+        ProductPlan(productID: "nqduuzkjsmzkaplv", coins: 400, usdPrice: "$0.99"),
+        ProductPlan(productID: "ocaxfmcmghhyzxnz", coins: 800, usdPrice: "$1.99"),
+        ProductPlan(productID: "ftxrirldrkltwphy", coins: 2_450, usdPrice: "$4.99"),
+        ProductPlan(productID: "dosfjfyfilpvialo", coins: 5_150, usdPrice: "$9.99"),
+        ProductPlan(productID: "lbiizwixmornamqd", coins: 6_400, usdPrice: "$12.99"),
+        ProductPlan(productID: "awqdpmsulhawatiy", coins: 10_800, usdPrice: "$19.99"),
+        ProductPlan(productID: "rdalalhkifvtmbdh", coins: 14_900, usdPrice: "$24.99"),
+        ProductPlan(productID: "fhdqqatmdibiambe", coins: 29_400, usdPrice: "$49.99"),
+        ProductPlan(productID: "rqjmznkyorxxppxx", coins: 39_500, usdPrice: "$79.99"),
+        ProductPlan(productID: "voaesvpxyqttdyjz", coins: 63_700, usdPrice: "$99.99")
     ]
 
     /// Formal builds provide up to ten entries in Info.plist under

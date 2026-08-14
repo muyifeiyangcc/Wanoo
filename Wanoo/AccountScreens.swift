@@ -228,7 +228,7 @@ final class RechargeViewController: BaseScrollableViewController {
         list.arrangedSubviews.forEach { $0.removeFromSuperview() }
         let products = InAppPurchaseManager.shared.products
         if visualPackages && products.isEmpty {
-            [(100, "$0.99"), (550, "$4.99"), (1_200, "$9.99"), (3_000, "$19.99")].enumerated().forEach { index, pack in
+            [(400, "$0.99"), (800, "$1.99"), (2_450, "$4.99"), (5_150, "$9.99"), (6_400, "$12.99"), (10_800, "$19.99"), (14_900, "$24.99"), (29_400, "$49.99"), (39_500, "$79.99"), (63_700, "$99.99")].enumerated().forEach { index, pack in
                 let row = packageRow(amount: pack.0, price: pack.1, selected: index == selectedVisualIndex)
                 row.addAction(UIAction { [weak self] _ in self?.selectedVisualIndex = index; self?.render() }, for: .touchUpInside)
                 list.addArrangedSubview(row)
