@@ -47,7 +47,19 @@ final class PostDetailViewController: BaseScrollableViewController, UIScrollView
     private func style(_ value: UIButton) { value.backgroundColor = .white; value.layer.cornerRadius = 20; value.setTitleColor(Palette.ink, for: .normal); value.titleLabel?.font = AppFont.nunito(13, weight: .bold); value.snp.makeConstraints { $0.height.equalTo(44) } }
     private func render() { guard let post = repository.post(id: postID) else { return }; let me = repository.currentUserID ?? ""; let liked = post.likedBy.contains(me); let likeColor = liked ? Palette.purple : Palette.ink; likeIcon.tintColor = likeColor; likeCount.textColor = likeColor; likeCount.text = "\(post.likes)"; commentCount.text = "\(post.comments.count)"; comments.arrangedSubviews.forEach { $0.removeFromSuperview() }; let visible = post.comments.filter { !repository.blocked.contains($0.authorID) }; if visible.isEmpty { comments.addArrangedSubview(EmptyStateView(text: "No comments yet.")); return }; visible.forEach { item in
         let row = UIView(); let avatar = UIImageView(image: UserAvatarStore.image(userID: item.authorID) ?? UIImage(named: "Figma-280-3522-avatar-ce5410a5")); avatar.contentMode = .scaleAspectFill; avatar.clipsToBounds = true; avatar.layer.cornerRadius = 24; row.addSubview(avatar); avatar.snp.makeConstraints { $0.leading.top.equalToSuperview(); $0.width.height.equalTo(48) }
-        let author = label(repository.user(id: item.authorID)?.name ?? "Explorer", size: 15, weight: .bold); let text = label(item.text, size: 12, lines: 0); let time = label(item.timestamp.formatted(date: .abbreviated, time: .shortened), size: 10, color: Palette.muted); row.addSubview(author); row.addSubview(text); row.addSubview(time); author.snp.makeConstraints { $0.leading.equalTo(avatar.snp.trailing).offset(12); $0.top.equalToSuperview() }; text.snp.makeConstraints { $0.leading.equalTo(author); $0.trailing.equalToSuperview(); $0.top.equalTo(author.snp.bottom).offset(2) }; time.snp.makeConstraints { $0.leading.equalTo(author); $0.top.equalTo(text.snp.bottom).offset(3); $0.bottom.equalToSuperview() }; comments.addArrangedSubview(row)
+        let author = label(repository.user(id: item.authorID)?.name ?? "Explorer", size: 15, weight: .bold); let text = label(item.text, size: 12, lines: 0); let time = label(item.timestamp.formatted(date: .abbreviated, time: .shortened), size: 10, color: Palette.muted); row.addSubview(author); row.addSubview(text); row.addSubview(time); author.snp.makeConstraints { $0.leading.equalTo(avatar.snp.trailing).offset(12); $0.top.equalToSuperview() }; text.snp.makeConstraints { $0.leading.equalTo(author); $0.trailing.equalToSuperview(); $0.top.equalTo(author.snp.bottom).offset(2) }; time.snp.makeConstraints { $0.leading.equalTo(author); $0.top.equalTo(text.snp.bottom).offset(3); $0.bottom.equalToSuperview() }
+        if item.authorID != me {
+            let moreButton = UIButton(type: .system)
+            moreButton.setTitle("··· More", for: .normal)
+            moreButton.setTitleColor(Palette.ink, for: .normal)
+            moreButton.titleLabel?.font = AppFont.nunito(10, weight: .regular)
+            moreButton.contentHorizontalAlignment = .right
+            moreButton.addAction(UIAction { [weak self] _ in self?.presentCommentActions(authorID: item.authorID) }, for: .touchUpInside)
+            row.addSubview(moreButton)
+            moreButton.snp.makeConstraints { $0.trailing.top.equalToSuperview(); $0.width.equalTo(64); $0.height.equalTo(28) }
+            author.snp.makeConstraints { $0.trailing.lessThanOrEqualTo(moreButton.snp.leading).offset(-8) }
+        }
+        comments.addArrangedSubview(row)
     } }
     private func buildBottomComposer(post: AdventurePost) {
         let bar = UIView(); bar.backgroundColor = .white; bar.layer.cornerRadius = 20; bar.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]; view.addSubview(bar); bar.snp.makeConstraints { $0.leading.trailing.bottom.equalToSuperview(); $0.height.equalTo(74) }
@@ -130,6 +142,18 @@ final class PostDetailViewController: BaseScrollableViewController, UIScrollView
     @objc private func toggleSave() { repository.toggleSaved(postID: postID) }
     @objc private func postComment() { let text = input.text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""; guard !text.isEmpty else { showMessage("Write a comment", message: "Enter a message before posting."); return }; repository.addComment(postID: postID, text: text); input.text = "" }
     @objc private func openAuthor() { guard let author = repository.post(id: postID)?.authorID else { return }; navigationController?.pushViewController(OtherProfileViewController(userID: author), animated: true) }
+    private func presentCommentActions(authorID: String) {
+        guard authorID != repository.currentUserID else { return }
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "Report", style: .default) { [weak self] _ in
+            self?.navigationController?.pushViewController(ReportViewController(targetID: authorID), animated: true)
+        })
+        sheet.addAction(UIAlertAction(title: "Block", style: .destructive) { [weak self] _ in
+            self?.repository.block(userID: authorID)
+        })
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(sheet, animated: true)
+    }
     @objc private func more() {
         presentAdventureActions(postID: postID, afterDelete: { [weak self] in
             self?.navigationController?.popViewController(animated: true)
