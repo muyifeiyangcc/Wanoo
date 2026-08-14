@@ -1,19 +1,19 @@
 workflows:
   ios-native-quick-start:
-    name: Kinva
+    name: Wanoo
     max_build_duration: 120
     instance_type: mac_mini_m2
     integrations:
-      app_store_connect: Kinva
+      app_store_connect: Wanoo
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.inst.kinva
+        bundle_identifier: com.awaw.wanoo
       vars:
-        BUNDLE_ID: com.inst.kinva
-        XCODE_WORKSPACE: Kinva.xcworkspace
-        XCODE_SCHEME: Kinva
-        APP_STORE_APPLE_ID: 6799808993
+        BUNDLE_ID: com.awaw.wanoo
+        XCODE_WORKSPACE: Wanoo.xcworkspace
+        XCODE_SCHEME: Wanoo
+        APP_STORE_APPLE_ID: 6801430501
       xcode: 26.5 # <-- set to specific version e.g. 14.3, 15.0 to avoid unexpected updates.
       cocoapods: default
     scripts:
