@@ -207,7 +207,7 @@ final class HomeViewController: BaseScrollableViewController {
         top.addArrangedSubview(aiWrap); stack.addArrangedSubview(top)
         let chipScroll = UIScrollView(); chipScroll.showsHorizontalScrollIndicator = false; chipScroll.snp.makeConstraints { $0.height.equalTo(36) }
         let chips = UIStackView(); chips.spacing = 8; chipScroll.addSubview(chips); chips.snp.makeConstraints { $0.edges.equalTo(chipScroll.contentLayoutGuide); $0.height.equalTo(chipScroll.frameLayoutGuide) }
-        repository.categories.forEach { name in let chip = ChipButton(title: name); chip.isSelected = name == selectedCategory; chip.addAction(UIAction { [weak self, weak chip] _ in self?.selectedCategory = name; chips.arrangedSubviews.compactMap { $0 as? ChipButton }.forEach { $0.isSelected = $0 === chip }; self?.render(); self?.renderRooms() }, for: .touchUpInside); chips.addArrangedSubview(chip) }; stack.addArrangedSubview(chipScroll)
+        repository.categories.forEach { name in let chip = ChipButton(title: name); chip.isSelected = name == selectedCategory; chip.addAction(UIAction { [weak self, weak chip] _ in self?.selectedCategory = name; chips.arrangedSubviews.compactMap { $0 as? ChipButton }.forEach { $0.isSelected = $0 === chip }; self?.renderRooms() }, for: .touchUpInside); chips.addArrangedSubview(chip) }; stack.addArrangedSubview(chipScroll)
         stack.addArrangedSubview(section("Popular chatrooms"))
         let roomViewport = UIView(); roomViewport.snp.makeConstraints { $0.height.equalTo(112) }
         let roomScroll = UIScrollView(); roomScroll.showsHorizontalScrollIndicator = false; roomScroll.clipsToBounds = true; roomViewport.addSubview(roomScroll)
@@ -278,8 +278,8 @@ final class HomeViewController: BaseScrollableViewController {
     }
     private func render() {
         feed.arrangedSubviews.forEach { $0.removeFromSuperview() }
-        let posts = repository.visiblePosts.filter { selectedCategory == "All" || $0.category == selectedCategory }
-        if posts.isEmpty { feed.addArrangedSubview(EmptyStateView(text: "No adventures match this category.")); return }
+        let posts = repository.visiblePosts
+        if posts.isEmpty { feed.addArrangedSubview(EmptyStateView(text: "No adventures yet.")); return }
         posts.forEach { feed.addArrangedSubview(postCard($0)) }
     }
     private func renderRooms() { roomStack.arrangedSubviews.forEach { $0.removeFromSuperview() }; repository.visibleRooms.filter { selectedCategory == "All" || $0.category == selectedCategory }.forEach { roomStack.addArrangedSubview(roomCard($0)) } }
@@ -336,8 +336,8 @@ final class DiscoverViewController: BaseScrollableViewController {
     }
     private func imageTile(title: String, subtitle: String, asset: String, tall: Bool = false) -> UIButton { let value = UIButton(type: .system); value.layer.cornerRadius = 16; value.clipsToBounds = true; let image = UIImageView(image: UIImage(named: asset)); image.contentMode = .scaleAspectFill; image.clipsToBounds = true; image.isUserInteractionEnabled = false; value.addSubview(image); image.snp.makeConstraints { $0.edges.equalToSuperview() }; let shade = UIView(); shade.backgroundColor = UIColor.black.withAlphaComponent(0.16); shade.isUserInteractionEnabled = false; value.addSubview(shade); shade.snp.makeConstraints { $0.edges.equalToSuperview() }; let copy = UIStackView(); copy.axis = .vertical; copy.spacing = 0; copy.isUserInteractionEnabled = false; let titleLabel = label(title, size: tall ? 18 : 14, weight: .heavy, color: .white); let subtitleLabel = label(subtitle, size: 11, weight: .heavy, color: tall ? Palette.lime : .white); copy.addArrangedSubview(titleLabel); copy.addArrangedSubview(subtitleLabel); value.addSubview(copy); copy.snp.makeConstraints { $0.leading.trailing.equalToSuperview().inset(10); $0.bottom.equalToSuperview().inset(9) }; value.snp.makeConstraints { $0.height.equalTo(tall ? 92 : 66) }; return value }
     @objc private func noop() {}
-    @objc private func openSearch() { navigationController?.pushViewController(SearchViewController(), animated: true) }
-    private func openTopic(_ name: String) { navigationController?.pushViewController(TopicViewController(topic: name), animated: true) }
+    @objc private func openSearch() { requireLogin { self.navigationController?.pushViewController(SearchViewController(), animated: true) } }
+    private func openTopic(_ name: String) { requireLogin { self.navigationController?.pushViewController(TopicViewController(topic: name), animated: true) } }
     private func open(_ id: String) { requireLogin { self.navigationController?.pushViewController(PostDetailViewController(postID: id), animated: true) } }
     override func repositoryDidChange() { renderContent() }
 }

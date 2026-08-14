@@ -107,6 +107,18 @@ final class AdventureFeedCardView: UIView, UIGestureRecognizerDelegate {
             $0.height.equalTo(190)
         }
 
+        if let firstMedia = PostMediaStore.records(postID: post.id).first,
+           PostMediaStore.isVideo(firstMedia) {
+            let play = UIImageView(image: UIImage(systemName: "play.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)))
+            play.tintColor = .white
+            play.backgroundColor = UIColor.black.withAlphaComponent(0.38)
+            play.layer.cornerRadius = 28
+            play.contentMode = .center
+            play.isUserInteractionEnabled = false
+            hero.addSubview(play)
+            play.snp.makeConstraints { $0.center.equalToSuperview(); $0.width.height.equalTo(56) }
+        }
+
         let eyebrowText = [post.location.isEmpty ? nil : post.location.uppercased(), post.duration.uppercased()].compactMap { $0 }.joined(separator: " · ")
         let eyebrow = makeLabel(eyebrowText, size: 11, weight: .heavy, color: Palette.lime)
         let title = makeLabel(post.title.uppercased(), size: 23, weight: .heavy, color: .white)

@@ -335,7 +335,7 @@ final class ChatViewController: BaseScrollableViewController, UIImagePickerContr
         composer.axis = .horizontal; composer.spacing = 8; composer.alignment = .center; composer.backgroundColor = .white; composer.layer.cornerRadius = 18; composer.layer.cornerCurve = .continuous
         composer.isLayoutMarginsRelativeArrangement = true; composer.layoutMargins = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         composer.snp.makeConstraints { $0.height.equalTo(54) }
-        input.placeholder = isRoom ? "Message Yosemite Room..." : "Enter..."
+        input.placeholder = isRoom ? "Message \(displayTitle)..." : "Enter..."
         input.font = AppFont.nunito(12); input.backgroundColor = .clear
         let inset = UIView(); inset.snp.makeConstraints { $0.width.equalTo(isRoom ? 6 : 0) }; input.leftView = inset; input.leftViewMode = .always
         input.returnKeyType = .send; input.addTarget(self, action: #selector(send), for: .editingDidEndOnExit)
@@ -634,7 +634,7 @@ final class PublishViewController: BaseScrollableViewController, UIImagePickerCo
         storyPlaceholder.snp.makeConstraints { $0.top.equalToSuperview().offset(12); $0.leading.equalToSuperview().offset(15); $0.trailing.lessThanOrEqualToSuperview().inset(12) }
         story.snp.makeConstraints { $0.height.equalTo(76) }
         stack.addArrangedSubview(story)
-        let passport = coinActionButton(title: "Adventure Passport", coins: 5, action: #selector(openPassport)); stack.addArrangedSubview(passport)
+        let passport = coinActionButton(title: "Adventure Passport", coins: 300, action: #selector(openPassport)); stack.addArrangedSubview(passport)
         stack.addArrangedSubview(button("Publish", action: #selector(publish)))
     }
     private func styleField(_ field: UITextField, placeholder: String) { field.placeholder = placeholder; field.backgroundColor = .white; field.layer.cornerRadius = 14; field.font = AppFont.inter(12); let inset = UIView(); inset.snp.makeConstraints { $0.width.equalTo(14) }; field.leftView = inset; field.leftViewMode = .always; field.snp.makeConstraints { $0.height.equalTo(46) } }
@@ -852,7 +852,7 @@ final class PassportViewController: BaseScrollableViewController {
         let price = DashedMediaButton(type: .system); price.dashCornerRadius = 13; price.layer.cornerRadius = 13; price.addTarget(self, action: #selector(generate), for: .touchUpInside); price.snp.makeConstraints { $0.width.equalTo(228); $0.height.equalTo(42) }
         let generateTitle = label("Generate for", size: 15, weight: .bold, color: Palette.muted); generateTitle.isUserInteractionEnabled = false
         let priceCoin = UIImageView(image: UIImage(named: "coin")); priceCoin.contentMode = .scaleAspectFit; priceCoin.isUserInteractionEnabled = false; priceCoin.snp.makeConstraints { $0.width.height.equalTo(17) }
-        let priceAmount = label("5 coins", size: 15, weight: .bold, color: Palette.muted); priceAmount.isUserInteractionEnabled = false
+        let priceAmount = label("300 coins", size: 15, weight: .bold, color: Palette.muted); priceAmount.isUserInteractionEnabled = false
         let priceContent = UIStackView(arrangedSubviews: [generateTitle, priceCoin, priceAmount]); priceContent.spacing = 5; priceContent.alignment = .center; priceContent.isUserInteractionEnabled = false; price.addSubview(priceContent); priceContent.snp.makeConstraints { $0.center.equalToSuperview() }
         let priceRow = UIStackView(arrangedSubviews: [UIView(), price, UIView()]); priceRow.distribution = .equalCentering; stack.addArrangedSubview(priceRow)
         preview.snp.makeConstraints { $0.height.equalTo(405) }; stack.addArrangedSubview(preview)
@@ -895,7 +895,7 @@ final class PassportViewController: BaseScrollableViewController {
     }
     @objc private func generate() { render() }
     @objc private func save() {
-        confirmSpend(amount: 5, purpose: "publishing this Adventure Card and saving the \(selected) Passport") {
+        confirmSpend(amount: 300, purpose: "publishing this Adventure Card and saving the \(selected) Passport") {
             var resolvedID = self.postID
             if resolvedID == nil, let draft = self.draft {
                 resolvedID = self.repository.publish(category: draft.category, title: draft.title, location: draft.location, story: draft.story, duration: draft.duration, highlights: draft.title, mediaRecords: draft.mediaRecords)

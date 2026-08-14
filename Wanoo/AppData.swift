@@ -222,7 +222,7 @@ final class AppRepository {
     let durations = ["Half Day", "One Day", "Weekend", "Multi-day"]
     let publishCost = 5
     let passportCost = 12
-    let aiMessageCost = 2
+    let aiMessageCost = 5
 
     var hasAcceptedEULA: Bool {
         get { UserDefaults.standard.bool(forKey: Key.eula) }

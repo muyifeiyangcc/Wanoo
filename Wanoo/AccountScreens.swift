@@ -199,7 +199,7 @@ final class RechargeViewController: BaseScrollableViewController {
         list.spacing = 12
         stack.addArrangedSubview(list)
 
-        continueButton.setTitle("Continue", for: .normal)
+        continueButton.setTitle("Buy", for: .normal)
         continueButton.setTitleColor(.white, for: .normal)
         continueButton.titleLabel?.font = AppFont.nunito(20, weight: .black)
         continueButton.backgroundColor = Palette.purple

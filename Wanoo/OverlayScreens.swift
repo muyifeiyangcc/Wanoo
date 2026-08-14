@@ -316,7 +316,7 @@ final class EULAOverlayController: UIViewController {
         }
 
         let cancel = makeAgreementButton(title: "Cancel", primary: false, action: #selector(cancelTapped))
-        let publish = makeAgreementButton(title: "Publish", primary: true, action: #selector(acceptTapped))
+        let publish = makeAgreementButton(title: "Agree", primary: true, action: #selector(acceptTapped))
         let buttons = UIStackView(arrangedSubviews: [cancel, publish])
         buttons.spacing = 8
         buttons.distribution = .fillEqually
